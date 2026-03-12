@@ -22,11 +22,10 @@ function createWindow() {
     electron.shell.openExternal(details.url);
     return { action: "deny" };
   });
-  mainWindow.loadURL("https://www.google.com");
   if (utils.is.dev && process.env["ELECTRON_RENDERER_URL"]) {
     mainWindow.loadURL(process.env["ELECTRON_RENDERER_URL"]);
   } else {
-    mainWindow.loadURL("https://www.google.com");
+    mainWindow.loadFile(path.join(__dirname, "../renderer/index.html"));
   }
 }
 electron.app.whenReady().then(() => {
