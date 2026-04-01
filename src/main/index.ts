@@ -2,6 +2,10 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import Store from 'electron-store'
+import { StoreData, IPCChannels } from '../types'
+
+const store = new Store<StoreData>()
 
 function createWindow(): void {
   // Create the browser window.
@@ -72,3 +76,28 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+// --- IPC 处理 ---
+
+// 处理获取数据请求
+ipcMain.handle(
+  IPCChannels.GetStore,
+  async (event, key: keyof StoreData): Promise<StoreData[keyof StoreData]> => {
+    return store.get(key)
+  }
+)
+
+// 处理设置数据请求
+ipcMain.handle(
+  IPCChannels.SetStore,
+  async (event, key: keyof StoreData, value: StoreData[keyof StoreData]) => {
+    store.set(key, value)
+  }
+)
+
+// 监听数据变化并广播
+store.onDidChange('menus', (newValue) => {
+  BrowserWindow.getAllWindows().forEach((win) => {
+    win.webContents.send(IPCChannels.StoreUpdate, { key: 'menus', value: newValue })
+  })
+})

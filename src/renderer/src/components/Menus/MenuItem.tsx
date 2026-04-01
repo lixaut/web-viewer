@@ -1,8 +1,9 @@
 import React from 'react'
 import { EditOutlined, DeleteOutlined, LinkOutlined } from '@ant-design/icons'
-import { Avatar, Card } from 'antd'
+import { Avatar, Card, Popconfirm } from 'antd'
 import type { CardMetaProps, CardProps } from 'antd'
 import { createStyles } from 'antd-style'
+import type { MenuInfo } from '@/types/index'
 
 const { Meta } = Card
 
@@ -34,14 +35,32 @@ const stylesCard: CardProps['styles'] = {
   }
 }
 
-const actions = [
-  <LinkOutlined key="link" style={{ color: '#45b7d1' }} />,
-  <EditOutlined key="edit" style={{ color: '#45b7d1' }} />,
-  <DeleteOutlined key="delete" style={{ color: '#ff6b6b' }} />
-]
-
-const MenuItem: React.FC<{ info: MenuItem }> = ({ info }) => {
+export const MenuItem: React.FC<{
+  menu: MenuInfo
+  menus: Array<MenuInfo>
+  setMenus: (menus: Array<MenuInfo>) => void
+}> = ({ menu, menus, setMenus }) => {
   const { styles: classNames } = useStyles()
+
+  const deleteMenu = (): void => {
+    const newMenus = menus.filter((item) => item.id !== menu.id)
+    setMenus(newMenus)
+  }
+
+  const actions = [
+    <LinkOutlined key="link" style={{ color: '#45b7d1' }} />,
+    <EditOutlined key="edit" style={{ color: '#45b7d1' }} />,
+    <Popconfirm
+      key="delete"
+      title="提示"
+      description="确认删除吗？"
+      onConfirm={() => deleteMenu()}
+      okText="确认"
+      cancelText="取消"
+    >
+      <DeleteOutlined style={{ color: '#ff6b6b' }} />
+    </Popconfirm>
+  ]
 
   const sharedCardProps: CardProps = {
     classNames,
@@ -49,15 +68,16 @@ const MenuItem: React.FC<{ info: MenuItem }> = ({ info }) => {
   }
 
   const sharedCardMetaProps: CardMetaProps = {
-    avatar: <Avatar src={<img draggable={false} src={info.icon} alt="avatar" />} />,
-    description: info.url
+    avatar: <Avatar src={<img draggable={false} src={menu.icon} alt="avatar" />} />,
+    description: menu.path
   }
 
   return (
-    <Card {...sharedCardProps} styles={stylesCard} variant="borderless">
-      <Meta {...sharedCardMetaProps} title={info.name} />
-    </Card>
+    <>
+      {/* {holder} */}
+      <Card {...sharedCardProps} styles={stylesCard} variant="borderless">
+        <Meta {...sharedCardMetaProps} title={menu.name} />
+      </Card>
+    </>
   )
 }
-
-export default MenuItem

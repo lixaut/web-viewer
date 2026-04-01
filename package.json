@@ -2,7 +2,7 @@
   "name": "my-react-electron-app",
   "version": "1.0.0",
   "description": "An Electron application with React and TypeScript",
-  "main": "./out/main/index.js",
+  "main": "./out/main/index.mjs",
   "author": "example.com",
   "homepage": "https://electron-vite.org",
   "scripts": {
@@ -25,6 +25,7 @@
     "@electron-toolkit/utils": "^4.0.0",
     "antd": "^6.3.5",
     "antd-style": "^4.1.0",
+    "electron-store": "^11.0.2",
     "electron-updater": "^6.3.9"
   },
   "devDependencies": {
