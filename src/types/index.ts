@@ -3,6 +3,7 @@ export interface MenuInfo {
   name: string
   icon: string
   path: string
+  isTop: boolean
 }
 
 // 1. 定义 Store 的数据结构
@@ -15,7 +16,14 @@ export interface StoreData {
 export enum IPCChannels {
   GetStore = 'store-get',
   SetStore = 'store-set',
-  StoreUpdate = 'store-updated'
+  StoreUpdate = 'store-updated',
+  OpenUrlWindow = 'open-url-window'
+}
+
+// 定义页面类型
+export enum PageType {
+  CREATE = '新增',
+  EDIT = '编辑'
 }
 
 // 3. 定义暴露给渲染进程的 API 接口
@@ -25,4 +33,6 @@ export interface IElectronAPI {
   onStoreUpdate: (
     callback: (data: { key: keyof StoreData; value: StoreData[keyof StoreData] }) => void
   ) => () => void
+  // 打开 URL 窗口
+  openUrlWindow: (options: { url: string; isTop: boolean }) => void
 }

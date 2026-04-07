@@ -17,7 +17,9 @@ export const useElectronStore = <K extends keyof StoreData>(
       try {
         const storedValue = await window.api.getStore(key)
         if (isMounted) {
-          setValue(storedValue !== undefined ? storedValue : initialValue)
+          setValue(
+            storedValue !== undefined && Array.isArray(storedValue) ? storedValue : initialValue
+          )
         }
       } catch (error) {
         console.error(`Failed to load store key: ${key}`, error)

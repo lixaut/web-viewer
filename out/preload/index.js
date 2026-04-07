@@ -5,6 +5,7 @@ var IPCChannels = /* @__PURE__ */ ((IPCChannels2) => {
   IPCChannels2["GetStore"] = "store-get";
   IPCChannels2["SetStore"] = "store-set";
   IPCChannels2["StoreUpdate"] = "store-updated";
+  IPCChannels2["OpenUrlWindow"] = "open-url-window";
   return IPCChannels2;
 })(IPCChannels || {});
 const api = {
@@ -21,7 +22,9 @@ const api = {
     return () => {
       electron.ipcRenderer.removeListener(IPCChannels.StoreUpdate, listener);
     };
-  }
+  },
+  // 打开 URL 窗口
+  openUrlWindow: (options) => electron.ipcRenderer.invoke(IPCChannels.OpenUrlWindow, options)
 };
 if (process.contextIsolated) {
   try {

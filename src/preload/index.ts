@@ -25,7 +25,10 @@ const api: IElectronAPI = {
     return () => {
       ipcRenderer.removeListener(IPCChannels.StoreUpdate, listener)
     }
-  }
+  },
+
+  // 打开 URL 窗口
+  openUrlWindow: (options) => ipcRenderer.invoke(IPCChannels.OpenUrlWindow, options)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

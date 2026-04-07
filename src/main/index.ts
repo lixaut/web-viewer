@@ -39,6 +39,43 @@ function createWindow(): void {
   }
 }
 
+// 创建 URL 窗口
+function createUrlWindow(url: string, customOptions = {}): BrowserWindow {
+  const defaultOptions = {
+    width: 900,
+    height: 670,
+    modal: false, // 非模态，允许操作父窗口
+
+    // 方案一: 完全移除标题栏和边框
+    // frame: false,
+
+    // 方案二: 仅移除标题栏，可控制
+    // titleBarStyle: 'hidden' as const,
+    // titleBarOverlay: true,
+
+    show: true,
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
+      sandbox: true
+    }
+  }
+
+  const options = { ...defaultOptions, ...customOptions }
+  const urlWindow = new BrowserWindow(options)
+
+  urlWindow.removeMenu() /** 仅移除原生菜单栏 */
+  urlWindow.loadURL(url)
+
+  // 窗口关闭时清理引用
+  urlWindow.on('closed', () => {
+    // 可以在这里做一些清理工作
+    console.log('URL 窗口已关闭')
+  })
+
+  return urlWindow
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -82,7 +119,7 @@ app.on('window-all-closed', () => {
 // 处理获取数据请求
 ipcMain.handle(
   IPCChannels.GetStore,
-  async (event, key: keyof StoreData): Promise<StoreData[keyof StoreData]> => {
+  async (_, key: keyof StoreData): Promise<StoreData[keyof StoreData]> => {
     return store.get(key)
   }
 )
@@ -90,7 +127,7 @@ ipcMain.handle(
 // 处理设置数据请求
 ipcMain.handle(
   IPCChannels.SetStore,
-  async (event, key: keyof StoreData, value: StoreData[keyof StoreData]) => {
+  async (_, key: keyof StoreData, value: StoreData[keyof StoreData]) => {
     store.set(key, value)
   }
 )
@@ -99,5 +136,12 @@ ipcMain.handle(
 store.onDidChange('menus', (newValue) => {
   BrowserWindow.getAllWindows().forEach((win) => {
     win.webContents.send(IPCChannels.StoreUpdate, { key: 'menus', value: newValue })
+  })
+})
+
+// 处理打开 URL 窗口请求
+ipcMain.handle(IPCChannels.OpenUrlWindow, (_, options) => {
+  createUrlWindow(options.url, {
+    alwaysOnTop: options.isTop
   })
 })

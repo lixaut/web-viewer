@@ -1,5 +1,5 @@
 import React from 'react'
-import { EditOutlined, DeleteOutlined, LinkOutlined } from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined, GlobalOutlined } from '@ant-design/icons'
 import { Avatar, Card, Popconfirm } from 'antd'
 import type { CardMetaProps, CardProps } from 'antd'
 import { createStyles } from 'antd-style'
@@ -39,7 +39,8 @@ export const MenuItem: React.FC<{
   menu: MenuInfo
   menus: Array<MenuInfo>
   setMenus: (menus: Array<MenuInfo>) => void
-}> = ({ menu, menus, setMenus }) => {
+  onEdit: () => void
+}> = ({ menu, menus, setMenus, onEdit }) => {
   const { styles: classNames } = useStyles()
 
   const deleteMenu = (): void => {
@@ -47,9 +48,14 @@ export const MenuItem: React.FC<{
     setMenus(newMenus)
   }
 
+  // 新窗口打开链接
+  const openNewWindow = (menu: MenuInfo): void => {
+    window.api.openUrlWindow({ url: menu.path, isTop: menu.isTop })
+  }
+
   const actions = [
-    <LinkOutlined key="link" style={{ color: '#45b7d1' }} />,
-    <EditOutlined key="edit" style={{ color: '#45b7d1' }} />,
+    <GlobalOutlined key="link" onClick={() => openNewWindow(menu)} style={{ color: '#45b7d1' }} />,
+    <EditOutlined key="edit" onClick={onEdit} style={{ color: '#45b7d1' }} />,
     <Popconfirm
       key="delete"
       title="提示"
