@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: my-react-electron-app
+productName: WebViewer
 directories:
   buildResources: build
 files:
@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: my-react-electron-app
+  executableName: WebViewer
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

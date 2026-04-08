@@ -13,7 +13,7 @@ const api: IElectronAPI = {
   // 监听更新
   onStoreUpdate: (callback) => {
     const listener = (
-      event: Electron.IpcRendererEvent,
+      _: Electron.IpcRendererEvent,
       data: { key: keyof StoreData; value: StoreData[keyof StoreData] }
     ): void => {
       callback(data)

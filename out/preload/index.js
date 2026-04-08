@@ -15,7 +15,7 @@ const api = {
   setStore: (key, value) => electron.ipcRenderer.invoke(IPCChannels.SetStore, key, value),
   // 监听更新
   onStoreUpdate: (callback) => {
-    const listener = (event, data) => {
+    const listener = (_, data) => {
       callback(data);
     };
     electron.ipcRenderer.on(IPCChannels.StoreUpdate, listener);
