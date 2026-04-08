@@ -3,6 +3,7 @@ import { EditOutlined, DeleteOutlined, GlobalOutlined } from '@ant-design/icons'
 import { Avatar, Card, Popconfirm } from 'antd'
 import type { CardMetaProps, CardProps } from 'antd'
 import { createStyles } from 'antd-style'
+import { useState } from 'react'
 import type { MenuInfo } from '@/types/index'
 
 const { Meta } = Card
@@ -42,6 +43,7 @@ export const MenuItem: React.FC<{
   onEdit: () => void
 }> = ({ menu, menus, setMenus, onEdit }) => {
   const { styles: classNames } = useStyles()
+  const [imgError, setImgError] = useState(false)
 
   const deleteMenu = (): void => {
     const newMenus = menus.filter((item) => item.id !== menu.id)
@@ -74,7 +76,18 @@ export const MenuItem: React.FC<{
   }
 
   const sharedCardMetaProps: CardMetaProps = {
-    avatar: <Avatar src={<img draggable={false} src={menu.icon} alt="avatar" />} />,
+    avatar: (
+      <Avatar
+        src={
+          <img
+            draggable={false}
+            src={imgError ? 'https://www.baidu.com/favicon.ico' : menu.icon}
+            alt="avatar"
+            onError={() => setImgError(true)}
+          />
+        }
+      />
+    ),
     description: menu.path
   }
 

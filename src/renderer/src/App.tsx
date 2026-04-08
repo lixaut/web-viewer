@@ -1,4 +1,4 @@
-import Menus from './components/Menus'
+import Menus from './views/menus'
 import { ConfigProvider, theme } from 'antd'
 
 function App(): React.JSX.Element {

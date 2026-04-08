@@ -35,7 +35,7 @@ function MenuForm({
       {
         ...values,
         id: crypto.randomUUID(),
-        icon: `https://www.google.com/s2/favicons?domain=${values.path}&sz=64`
+        icon: `https://logos.hunter.io/${new URL(values.path).hostname}`
       }
       // { ...values, id: crypto.randomUUID(), icon: values.path + '/favicon.ico' }
     ]
@@ -87,11 +87,7 @@ function MenuForm({
           >
             <Input />
           </Form.Item>
-          <Form.Item<MenuInfo>
-            label="是否置顶"
-            name="isTop"
-            rules={[{ required: true, message: '该项不能为空' }]}
-          >
+          <Form.Item<MenuInfo> label="是否置顶" name="isTop">
             <Switch defaultChecked onChange={(state) => form.setFieldValue('isTop', state)} />
           </Form.Item>
           <Form.Item label={null}>
