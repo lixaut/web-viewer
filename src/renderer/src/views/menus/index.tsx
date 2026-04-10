@@ -34,7 +34,7 @@ function Menus(): React.JSX.Element {
   return (
     <>
       <div className={styles.container}>
-        <Row gutter={10}>
+        <Row gutter={[10, 10]}>
           {menus.map((menu) => (
             <Col span={8} key={menu.id}>
               <MenuItem
