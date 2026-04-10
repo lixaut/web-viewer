@@ -1,7 +1,7 @@
 import styles from './index.module.css'
 import { MenuItem } from './MenuItem'
 import { Row, Col, FloatButton } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
+import { PlusOutlined, UnorderedListOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 import { PageType } from '@/types'
 import MenuForm from './MenuForm'
@@ -11,6 +11,7 @@ function Menus(): React.JSX.Element {
   const [modalVisible, setModalVisible] = useState(false)
   const [pageType, setPageType] = useState(PageType.CREATE)
   const [menuId, setMenuId] = useState<string | number | undefined>(undefined)
+  const [btnsVisible, setBtnsVisible] = useState(false)
   const { value: menus, setValue: setMenus } = useElectronStore('menus', [
     {
       id: crypto.randomUUID(),
@@ -54,10 +55,19 @@ function Menus(): React.JSX.Element {
           id={menuId}
           onVisibleChange={handleVisibleChange}
         />
-        <FloatButton
-          icon={<PlusOutlined />}
-          onClick={() => handleOpen({ pageType: PageType.CREATE })}
-        />
+        <FloatButton.Group
+          open={btnsVisible}
+          trigger="click"
+          style={{ insetInlineEnd: 24 }}
+          icon={<UnorderedListOutlined />}
+          onClick={() => setBtnsVisible(!btnsVisible)}
+        >
+          <FloatButton
+            icon={<PlusOutlined />}
+            tooltip="新增"
+            onClick={() => handleOpen({ pageType: PageType.CREATE })}
+          />
+        </FloatButton.Group>
       </div>
     </>
   )
