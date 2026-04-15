@@ -140,8 +140,8 @@ store.onDidChange('menus', (newValue) => {
 })
 
 // 处理打开 URL 窗口请求
-ipcMain.handle(IPCChannels.OpenUrlWindow, (_, options) => {
-  createUrlWindow(options.url, {
-    alwaysOnTop: options.isTop
+ipcMain.handle(IPCChannels.OpenUrlWindow, (_, data) => {
+  createUrlWindow(data.url, {
+    ...data.options
   })
 })

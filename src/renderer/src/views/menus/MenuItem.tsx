@@ -52,7 +52,7 @@ export const MenuItem: React.FC<{
 
   // 新窗口打开链接
   const openNewWindow = (menu: MenuInfo): void => {
-    window.api.openUrlWindow({ url: menu.path, isTop: menu.isTop })
+    window.api.openUrlWindow({ url: menu.path, options: menu.windowConfig || {} })
   }
 
   const actions = [

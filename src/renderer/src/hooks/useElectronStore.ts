@@ -35,7 +35,7 @@ export const useElectronStore = <K extends keyof StoreData>(
     // 2. 监听变化
     const unsubscribe = window.api.onStoreUpdate((data) => {
       if (data.key === key) {
-        setValue(data.value)
+        setValue(data.value as StoreData[K])
       }
     })
 

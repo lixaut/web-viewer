@@ -1,15 +1,19 @@
+import { BrowserWindowConstructorOptions } from 'electron'
+
 export interface MenuInfo {
   id: string
   name: string
   icon: string
   path: string
-  isTop: boolean
+  custom: boolean
+  windowConfig?: BrowserWindowConstructorOptions
 }
 
 // 1. 定义 Store 的数据结构
 export interface StoreData {
   menus: Array<MenuInfo>
   // 在这里扩展更多字段...
+  window_config: Array<BrowserWindowConstructorOptions>
 }
 
 // 2. 定义 IPC 通信的键名（可选，为了更严格的约束）
@@ -34,5 +38,5 @@ export interface IElectronAPI {
     callback: (data: { key: keyof StoreData; value: StoreData[keyof StoreData] }) => void
   ) => () => void
   // 打开 URL 窗口
-  openUrlWindow: (options: { url: string; isTop: boolean }) => void
+  openUrlWindow: (options: { url: string; options: BrowserWindowConstructorOptions }) => void
 }
