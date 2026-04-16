@@ -5,7 +5,6 @@ export interface MenuInfo {
   name: string
   icon: string
   path: string
-  custom: boolean
   windowConfig?: BrowserWindowConstructorOptions
 }
 
@@ -38,5 +37,9 @@ export interface IElectronAPI {
     callback: (data: { key: keyof StoreData; value: StoreData[keyof StoreData] }) => void
   ) => () => void
   // 打开 URL 窗口
-  openUrlWindow: (options: { url: string; options: BrowserWindowConstructorOptions }) => void
+  openUrlWindow: (options: {
+    url: string
+    options: BrowserWindowConstructorOptions
+    id: string
+  }) => void
 }

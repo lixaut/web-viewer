@@ -17,7 +17,6 @@ function Menus(): React.JSX.Element {
       id: crypto.randomUUID(),
       icon: 'https://www.baidu.com/favicon.ico',
       name: '百度',
-      custom: false,
       path: 'https://www.baidu.com'
     }
   ])

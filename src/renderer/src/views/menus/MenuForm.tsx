@@ -30,33 +30,31 @@ function MenuForm({
 
   // 提交操作
   const handleSubmit = (values: MenuInfo): void => {
-    console.log(values)
     let newValues: Array<MenuInfo> = []
-    newValues = [
-      ...menus,
-      {
-        ...values,
-        windowConfig: {
-          width: values.windowConfig?.width || 900,
-          height: values.windowConfig?.height || 670,
-          alwaysOnTop: values.windowConfig?.alwaysOnTop || false,
-          center:
-            values.windowConfig?.center ||
-            !values.windowConfig?.x ||
-            !values.windowConfig?.y ||
-            true,
-          x: values.windowConfig?.x || 100,
-          y: values.windowConfig?.y || 100
-        },
-        id: crypto.randomUUID(),
-        icon: `https://logos.hunter.io/${new URL(values.path).hostname}`
-      }
-    ]
+    const newItem = {
+      name: values.name,
+      path: values.path,
+      windowConfig: {
+        width: values.windowConfig?.width || 900,
+        height: values.windowConfig?.height || 670,
+        alwaysOnTop: values.windowConfig?.alwaysOnTop || false,
+        center: values.windowConfig?.center,
+        x: values.windowConfig?.center ? undefined : values.windowConfig?.x,
+        y: values.windowConfig?.center ? undefined : values.windowConfig?.y
+      },
+      id: crypto.randomUUID(),
+      icon: `https://logos.hunter.io/${new URL(values.path).hostname}`
+    }
+    newValues = [...menus, newItem]
     if (pageType === PageType.EDIT) {
-      const menu = form.getFieldsValue()
       newValues = [
         ...menus.filter((item) => item.id !== id),
-        { ...menus.find((item) => item.id === id), ...menu }
+        {
+          ...menus.find((item) => item.id === id),
+          name: newItem.name,
+          path: newItem.path,
+          windowConfig: newItem.windowConfig
+        } as MenuInfo
       ]
     }
     if (!Array.isArray(newValues)) {
@@ -109,7 +107,7 @@ function MenuForm({
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
               >
-                <InputNumber min={100} max={2000} style={{ width: '100%' }} />
+                <InputNumber min={500} max={2000} style={{ width: '100%' }} />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -121,7 +119,7 @@ function MenuForm({
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
               >
-                <InputNumber min={100} max={2000} style={{ width: '100%' }} />
+                <InputNumber min={300} max={2000} style={{ width: '100%' }} />
               </Form.Item>
             </Col>
           </Row>
@@ -135,7 +133,7 @@ function MenuForm({
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
               >
-                <InputNumber min={100} max={2000} style={{ width: '100%' }} />
+                <InputNumber min={0} max={2000} style={{ width: '100%' }} />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -147,7 +145,7 @@ function MenuForm({
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
               >
-                <InputNumber min={100} max={2000} style={{ width: '100%' }} />
+                <InputNumber min={0} max={2000} style={{ width: '100%' }} />
               </Form.Item>
             </Col>
           </Row>

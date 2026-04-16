@@ -1,34 +1,53 @@
-# my-react-electron-app
+# Web Viewer
 
-An Electron application with React and TypeScript
+A desktop application for managing web content with Electron, React, and TypeScript.
 
-## Recommended IDE Setup
+## Features
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- **Menu Management System**
+  Create and configure menu items with window settings
+- **Responsive Layout**
+  Optimized UI with bug-fixed homepage layout
+- **Windows Packaging**
+  Optimized build process for Windows distribution
+- **Button Group Support**
+  Manage groups of actions within menus
 
-## Project Setup
+## Setup
 
-### Install
+### Prerequisites
+- Node.js 18+
+- npm 9+
 
+### Installation
 ```bash
-$ npm install
+npm install
 ```
 
 ### Development
-
 ```bash
-$ npm run dev
+npm run dev
 ```
 
-### Build
-
+### Building
 ```bash
-# For windows
-$ npm run build:win
+# Build for Windows (optimized)
+npm run build:win
 
-# For macOS
-$ npm run build:mac
+# Build for macOS
+npm run build:mac
 
-# For Linux
-$ npm run build:linux
+# Build for Linux
+npm run build:linux
 ```
+
+## Project Structure
+- `src/main/`: Electron main process
+- `src/renderer/`: React application
+  - `src/renderer/src/views/menus/`: Menu components and configuration
+
+## Tips
+- **Windows Users**: If you encounter encoding issues, run "chcp 65001 && electron-vite dev" before development
+
+## License
+[MIT](LICENSE)

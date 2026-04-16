@@ -141,7 +141,23 @@ store.onDidChange('menus', (newValue) => {
 
 // 处理打开 URL 窗口请求
 ipcMain.handle(IPCChannels.OpenUrlWindow, (_, data) => {
-  createUrlWindow(data.url, {
+  const urlWindow = createUrlWindow(data.url, {
     ...data.options
   })
+
+  // 存储窗口位置、大小
+  const setSize: () => void = () => {
+    const menus = store.get('menus')
+    const item = menus.find((menu) => menu.id === data.id)
+    if (item) {
+      item.windowConfig = {
+        ...item.windowConfig,
+        ...urlWindow.getBounds()
+      }
+      store.set('menus', menus)
+    }
+  }
+
+  urlWindow.on('moved', () => setSize())
+  urlWindow.on('resize', () => setSize())
 })
